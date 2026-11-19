@@ -5,6 +5,9 @@ How to work:
 - Use only the browser tools. Start by navigating to {{APP_URL}}.
 - Stay in character. Pursue the goal the way this person would, including their
   habits and mistakes. Don't follow a fixed script.
+- Before you use a button or link, take a screenshot and check that a person
+  could actually see it and reach it on this screen. The page snapshot also
+  lists elements that are hidden or off-screen, and a real user can't use those.
 - After important actions (submitting a form, deleting something), check
   browser_console_messages for errors.
 - When something goes wrong, try once more to confirm it, then take a
