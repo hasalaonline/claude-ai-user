@@ -1,0 +1,14 @@
+{
+  "name": "tasklet",
+  "version": "1.0.0",
+  "description": "A tiny project tracker used to demo an AI user that tests the app every night",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

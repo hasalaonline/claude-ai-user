@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasklet: projects</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <strong>Tasklet</strong>
+    <span id="greeting" class="muted"></span>
+    <button id="new-project">+ New project</button>
+  </header>
+  <main class="card">
+    <h1>Your projects</h1>
+    <form id="project-form" hidden>
+      <label>Project name <input name="name"></label>
+      <button type="submit">Save project</button>
+    </form>
+    <ul id="projects"></ul>
+    <p id="empty" class="muted">No projects yet. Create your first one.</p>
+  </main>
+  <script src="/projects.js"></script>
+</body>
+</html>

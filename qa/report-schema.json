@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "goal_completed": { "type": "boolean" },
+    "summary": { "type": "string" },
+    "bugs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "severity": { "type": "string", "enum": ["high", "medium", "low"] },
+          "steps": { "type": "array", "items": { "type": "string" } },
+          "expected": { "type": "string" },
+          "actual": { "type": "string" },
+          "console_errors": { "type": "array", "items": { "type": "string" } },
+          "screenshot": { "type": "string" }
+        },
+        "required": ["title", "severity", "steps", "expected", "actual"]
+      }
+    }
+  },
+  "required": ["goal_completed", "summary", "bugs"]
+}

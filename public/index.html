@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasklet: sign up</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="card narrow">
+    <h1>Tasklet</h1>
+    <p class="muted">Small projects, tracked simply. Create your free account.</p>
+    <form id="signup">
+      <label>Name <input name="name" autocomplete="name"></label>
+      <label>Email <input name="email" type="email" autocomplete="email"></label>
+      <label>Password <input name="password" type="password" autocomplete="new-password"></label>
+      <p class="hint">At least 8 characters.</p>
+      <p id="error" class="error" role="alert"></p>
+      <button type="submit">Create account</button>
+    </form>
+  </main>
+  <script src="/signup.js"></script>
+</body>
+</html>
