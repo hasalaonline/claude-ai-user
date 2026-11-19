@@ -17,6 +17,20 @@ mcp=$(printf '%s\n' "${args[@]}" | jq -R . | jq -sc '{mcpServers: {playwright: {
 prompt="$(sed "s|{{APP_URL}}|$app_url|g" qa/explore.md)
 $(sed '1,/^---$/d' "$persona_file")"
 
+# Tell Claude which bugs are already open, so it reuses their titles
+# instead of filing the same bug again in new words.
+if [ -n "${GH_TOKEN:-}" ]; then
+  known=$(gh issue list --label ai-user --state open --limit 100 --json title \
+    --jq '.[].title | sub("^\\[AI user\\] "; "") | "- " + .')
+  if [ -n "$known" ]; then
+    prompt+="
+
+Bugs that are already reported and still open. If you run into one of them,
+report it with exactly the same title:
+$known"
+  fi
+fi
+
 claude -p "$prompt" \
   --mcp-config "$mcp" --strict-mcp-config \
   --tools "" \

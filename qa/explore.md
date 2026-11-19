@@ -16,7 +16,8 @@ How to work:
 
 What to report:
 - Only real problems: something broken, wrong, misleading, or blocking the goal.
-  Don't report design opinions or features you would like.
+  Don't report design opinions, features you would like, or things a person
+  would never notice (such as a missing favicon).
 - For each problem give short steps to reproduce, what you expected, what
   actually happened, any console errors, and the screenshot file name.
 - Severity: "high" if it blocks the goal or loses data, "medium" if it's wrong

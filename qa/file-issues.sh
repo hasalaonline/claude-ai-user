@@ -14,6 +14,9 @@ summary=${GITHUB_STEP_SUMMARY:-/dev/stdout}
   echo "|---|---|---|---|"
 } >> "$summary"
 
+# Titles of the issues that are already open; we add to this as we file new ones.
+open_titles=$(gh issue list --label "$label" --state open --limit 200 --json title --jq '.[].title')
+
 reports=(reports/*.report.json)
 [ ${#reports[@]} -gt 0 ] || { echo "No persona reports found"; exit 1; }
 
@@ -21,10 +24,9 @@ for report in "${reports[@]}"; do
   persona=$(jq -r '.persona' "$report")
   jq -r '"| \(.persona) | \(if .goal_completed then "✅" else "❌" end) | \(.bugs | length) | \(.summary | gsub("\n"; " ")) |"' "$report" >> "$summary"
 
-  jq -c '.bugs[]' "$report" | while read -r bug; do
+  while read -r bug; do
     title="[AI user] $(jq -r '.title' <<<"$bug")"
-    if gh issue list --label "$label" --state open --search "in:title \"$(jq -r '.title' <<<"$bug")\"" \
-        --json number --jq 'length' | grep -qv '^0$'; then
+    if grep -qxF "$title" <<<"$open_titles"; then
       echo "Already open: $title"; continue
     fi
     body=$(jq -r --arg persona "$persona" --arg run "${RUN_URL:-}" '
@@ -44,6 +46,7 @@ for report in "${reports[@]}"; do
         (if $run != "" then "Screenshot `\(.screenshot // "none")` is in the [run artifacts](\($run))." else empty end)
       ] | join("\n")' <<<"$bug")
     gh issue create --title "$title" --body "$body" --label "$label" >/dev/null
+    open_titles+=$'\n'"$title"
     echo "Filed: $title"
-  done
+  done < <(jq -c '.bugs[]' "$report")
 done
