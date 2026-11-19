@@ -29,6 +29,9 @@ claude -p "$prompt" \
   --json-schema "$(cat qa/report-schema.json)" \
   > "$out/$name.json"
 
+# Keep the screenshots with the report, wherever the browser saved them.
+find . -maxdepth 2 -name '*.png' -not -path "./$out/*" -not -path './node_modules/*' -exec mv {} "$out/$name/" \;
+
 jq -e '.structured_output' "$out/$name.json" > /dev/null || {
   echo "No structured report for $name:"; jq -r '.result // .' "$out/$name.json"; exit 1; }
 jq --arg p "$name" '.structured_output + {persona: $p, turns: .num_turns}' "$out/$name.json" > "$out/$name.report.json"

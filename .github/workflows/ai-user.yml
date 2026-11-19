@@ -40,10 +40,7 @@ jobs:
         if: always()
         with:
           name: report-${{ matrix.persona }}
-          path: |
-            reports/
-            .playwright-mcp/
-            *.png
+          path: reports/
 
   report:
     needs: explore
@@ -58,6 +55,7 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           pattern: report-*
+          path: reports
           merge-multiple: true
 
       - name: File issues and write the summary
