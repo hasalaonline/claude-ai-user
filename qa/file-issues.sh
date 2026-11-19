@@ -2,6 +2,7 @@
 # Turn every persona's report into GitHub issues (skipping ones already open)
 # and a summary table on the workflow run page.
 set -euo pipefail
+shopt -s nullglob
 label=ai-user
 gh label create "$label" --color 7c5cff --description "Found by the nightly AI user" --force >/dev/null
 
@@ -13,7 +14,10 @@ summary=${GITHUB_STEP_SUMMARY:-/dev/stdout}
   echo "|---|---|---|---|"
 } >> "$summary"
 
-for report in reports/*.report.json; do
+reports=(reports/*.report.json)
+[ ${#reports[@]} -gt 0 ] || { echo "No persona reports found"; exit 1; }
+
+for report in "${reports[@]}"; do
   persona=$(jq -r '.persona' "$report")
   jq -r '"| \(.persona) | \(if .goal_completed then "✅" else "❌" end) | \(.bugs | length) | \(.summary | gsub("\n"; " ")) |"' "$report" >> "$summary"
 
